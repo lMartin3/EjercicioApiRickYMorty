@@ -1,0 +1,52 @@
+name: Deploy Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - '**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Ensure target directory exists and is empty
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          # Medio peligroso poner las variables así (?)
+          script: |
+            mkdir -p /var/www/desarrollo-web-uai/rick-y-morty/${{ github.head_ref || github.ref_name }}
+            rm -rf /var/www/desarrollo-web-uai/rick-y-morty/${{ github.head_ref || github.ref_name }}/*
+
+      - name: Upload to server via SSH
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "."
+          target: "/var/www/desarrollo-web-uai/rick-y-morty/${{ github.head_ref || github.ref_name }}"
+
+      - name: Comment PR with live preview link
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const previewUrl = `https://desarrolloweb.martinl.dev/rick-y-morty/${{ github.head_ref || github.ref_name }}`;
+            const body = `✅ Live preview: [${previewUrl}](${previewUrl})`;
+
+            await github.rest.issues.createComment({
+              issue_number: context.payload.pull_request.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
