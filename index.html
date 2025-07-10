@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rick & Morty</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="filters-wrapper">
+
+            <form id="filter-form">
+        <fieldset class="filters" style="border: 1px solid black;   ">
+
+            <legend>Filtros</legend>
+            <div>
+                <label for="name-filter">Nombre</label>
+                <input type="text" id="name-filter" placeholder="Anchor Gear">
+            </div>
+            <fieldset>
+                <legend>Estado</legend>
+                <div>
+                    <input type="radio" name="status-filter" id="status-filter-any" value="" checked>
+                    <label for="status-filter-any">Cualquiera</label>
+                </div>
+                <div>
+                    <input type="radio" name="status-filter" id="status-filter-alive" value="alive">
+                    <label for="status-filter-alive">Vivo</label>
+                </div>
+                <div>
+                    <input type="radio" name="status-filter" id="status-filter-dead" value="dead">
+                    <label for="status-filter-dead">Muerto</label>
+                </div>
+                <div>
+                    <input type="radio" name="status-filter" id="status-filter-unknown" value="unknown">
+                    <label for="status-filter-unknown">Desconocido</label>
+                </div>
+            </fieldset>
+            <div>
+                <label for="species-filter">Especie</label>
+                <input type="text" id="species-filter" placeholder="Alien">
+            </div>
+            <div>
+                <label for="type-filter">Tipo</label>
+                <input type="text" id="type-filter" placeholder="Gear-person">
+            </div>
+            <fieldset>
+                <legend>Estado</legend>
+                <div>
+                    <input type="radio" name="gender-filter" id="gender-filter-any" value="" checked>
+                    <label for="gender-filter-any">Cualquiera</label>
+                </div>
+                <div>
+                    <input type="radio" name="gender-filter" id="gender-filter-male" value="male">
+                    <label for="gender-filter-male">Hombre</label>
+                </div>
+                <div>
+                    <input type="radio" name="gender-filter" id="gender-filter-female" value="female">
+                    <label for="gender-filter-female">Mujer</label>
+                </div>
+                <div>
+                    <input type="radio" name="gender-filter" id="gender-filter-genderless" value="genderless">
+                    <label for="gender-filter-genderless">Sin género</label>
+                </div>
+                <div>
+                    <input type="radio" name="gender-filter" id="gender-filter-unknown" value="unknown">
+                    <label for="gender-filter-unknown">Desconocido</label>
+                </div>
+            </fieldset>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <button id="search-button" onclick="readFiltersAndUpdate()">Buscar</button>
+            </div>
+        </fieldset>
+            </form>
+    </div>
+    <div class="grid-and-controls">
+        <div class="character-grid" id="character-grid">
+            <div class="character-card">
+                <div class="character-card-image">
+                    <img src="https://rickandmortyapi.com/api/character/avatar/1.jpeg">
+                </div>
+                <div class="character-card-info">
+                    <div>
+                        <span class="cc-name">Rick Sanchez</span>
+                    </div>
+                    <div class="cc-stats">
+
+                        <div class="cc-stat">
+                            <span class="cc-stat-name">Estado</span>
+                            <span class="cc-stat-value">Alive</span>
+                        </div>
+                        <div class="cc-stat">
+                            <span class="cc-stat-name">Especie</span>
+                            <span class="cc-stat-value">Human</span>
+                        </div>
+                        <div class="cc-stat">
+                            <span class="cc-stat-name">Género</span>
+                            <span class="cc-stat-value">Male</span>
+                        </div>
+                        <div class="cc-stat">
+                            <span class="cc-stat-name">Origen</span>
+                            <span class="cc-stat-value">Earth(C-137)</span>
+                        </div>
+                        <div class="cc-stat">
+                            <span class="cc-stat-name">Ubicación</span>
+                            <span class="cc-stat-value">Earth(C-137)</span>
+                        </div>
+                        <div class="cc-stat">
+                            <span class="cc-stat-name">Episodios</span>
+                            <span class="cc-stat-value">1-51</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-controller-wrapper" id="page-controller-wrapper">
+
+            <div class="page-controller">
+                <div class="page-button" id="first-page-button">1</div>
+                <div class="page-button inactive" id="page-button-first-separator">...</div>
+                <div class="page-button" id="previous-page-button">1</div>
+                <div class="page-button current" id="current-page-button">1</div>
+                <div class="page-button" id="next-page-button">1</div>
+                <div class="page-button inactive" id="page-button-second-separator">...</div>
+                <div class="page-button" id="last-page-button">1</div>
+            </div>
+        </div>
+        <button onclick="loadPage(1)">Load page</button>
+    </div>
+</div>
+</body>
+<script src="js/index.js"></script>
+</html>
